@@ -1,0 +1,18 @@
+[submodule "src/da_vinci_tools_ros"]
+	path = src/da_vinci_tools_ros
+	url = https://github.com/RViMLab/da_vinci_tools_ros.git
+[submodule "src/fri_ros"]
+	path = src/fri_ros
+	url = https://github.com/KCL-BMEIS/fri_ros
+[submodule "src/h_rcom_vs"]
+	path = src/h_rcom_vs
+	url = https://github.com/RViMLab/h_rcom_vs
+[submodule "src/h_vs"]
+	path = src/h_vs
+	url = https://github.com/RViMLab/h_vs
+[submodule "src/rcom"]
+	path = src/rcom
+	url = https://github.com/RViMLab/rcom
+[submodule "src/surgery_setups"]
+	path = src/surgery_setups
+	url = https://github.com/RViMLab/surgery_setups.git
