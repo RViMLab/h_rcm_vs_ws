@@ -1,0 +1,7 @@
+# build folders
+build
+devel
+
+# build artifacts
+.catkin_workspace
+src/CMakeLists.txt
