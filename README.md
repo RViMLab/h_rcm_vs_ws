@@ -4,12 +4,14 @@ This workspace implements an exemplary use cases for homography-based 2D visual 
 - [h_vs](https://github.com/RViMLab/h_vs), implements the desired homography generation, and the visual servo to compute the desired camera frame twist velocity
 - [h_rcom_vs](https://github.com/RViMLab/h_rcom_vs), implements the specific task for the abstract [rcom](https://github.com/RViMLab/rcom) package
 - [fri_ros](https://github.com/KCL-BMEIS/fri_ros), handles the communication to the KUKA LBR Med via the fast robot interface
+
 To build this code, do
 ```shell
 mkdir -p calibration_pattern_h_rcom_vs/src && cd calibration_pattern_h_rcom_vs/src
 git clone --recursive https://github.com/RViMLab/h_rcom_vs_ws && cd ..
 catkin_make && source devel/setup.bash
 ```
+
 All examples are explained below
 
 ## Calibration Pattern
