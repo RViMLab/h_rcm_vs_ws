@@ -12,7 +12,7 @@ git clone --recursive https://github.com/RViMLab/h_rcom_vs_ws && cd ..
 catkin_make && source devel/setup.bash
 ```
 
-All examples are explained below
+All examples are explained below.
 
 ## Calibration Pattern
 This visual servo computes a desired homography from a calibration pattern. To run this example, in 3 terminals, do
