@@ -15,7 +15,7 @@ catkin_make && source devel/setup.bash
 All examples are explained below.
 
 ## Calibration Pattern
-This visual servo computes a desired homography from a calibration pattern. To run this example, in 3 terminals, do
+This visual servo computes a desired homography from a calibration pattern. To run this example, open 3 terminals and do
 ```shell
 roslaunch lbr_endoscope_moveit moveit_planning_execution.launch  # initializes robot
 ```
