@@ -16,3 +16,6 @@
 [submodule "src/surgery_setups"]
 	path = src/surgery_setups
 	url = https://github.com/RViMLab/surgery_setups.git
+[submodule "src/decklink_ros"]
+	path = src/decklink_ros
+	url = https://github.com/RViMLab/decklink_ros.git
