@@ -17,13 +17,25 @@ All examples are explained below.
 ## Calibration Pattern
 This visual servo computes a desired homography from a calibration pattern. To run this example, open 3 terminals and do
 ```shell
-roslaunch lbr_da_vinci_endoscope_moveit moveit_planning_execution.launch  # initializes robot
+roslaunch lbr_stroz_endoscope_moveit moveit_planning_execution.launch sim:=true  # initializes robot
 ```
+where `sim` can be set to `false` for use on the real robot. In case of a real setup, also launch a camera, for example
 ```shell
-roslaunch h_rcom_vs rcom_init.launch  # initializes random endoscope position
+roslaunch h_rcom_vs decklink_storz_endoscope.launch
 ```
+In the 2nd terminal do
 ```shell
-roslaunch h_rcom_vs h_rcom_calibratino_pattern_vs.launch  # launches the visual servo
+roslaunch h_rcom_vs rcom_init.launch image_topic:=/lbr/storz_endoscope_camera/image_raw  # initializes random endoscope position
+```
+where `image_topic` is `/decklink/crop/image_raw` for the real setup. In a 3rd terminal do
+```shell
+roslaunch h_rcom_vs h_rcom_calibration_pattern_vs.launch image_topic:=/lbr/storz_endoscope_camera/image_raw  # launches the visual servo
+```
+The `h_vs_node` and `h_gen_calibration_pattern_node` nodes within this launch file also load a calibration file, therefore, for a real setup do
+```shell
+roslaunch h_rcom_vs h_rcom_calibration_pattern_vs.launch \
+    image_topic:=/decklink/crop/image_raw \
+    cname:=decklink url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # launches the visual servo
 ```
 
 ## Deep Servos
