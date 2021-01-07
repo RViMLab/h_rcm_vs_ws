@@ -9,9 +9,9 @@ from rcom_msgs.msg import rcom, rcomFeedback
 
 # dataframes to hold measurements
 mean_pairwise_distance_df = pd.DataFrame(columns=["mean_pairwise_distance"])
-twist_df = pd.DataFrame(columns=["linear", "angular"])
-h_rcom_vs_feedback_df = pd.DataFrame(columns=["p_trocar_error"])
-rcom_state_df = pd.DataFrame(columns=["p_trocar", "task"])
+twist_df = pd.DataFrame(columns=["Twist"])
+h_rcom_vs_feedback_df = pd.DataFrame(columns=["rcomFeedback"])
+rcom_state_df = pd.DataFrame(columns=["rcom"])
 
 # callbacks
 def meanPairwiseDistanceCB(msg: Float64):
@@ -20,15 +20,15 @@ def meanPairwiseDistanceCB(msg: Float64):
 
 def twistCB(msg: Twist):
     global twist_df
-    twist_df = twist_df.append({"linear": msg.linear, "angular": msg.angular}, ignore_index=True)
+    twist_df = twist_df.append({"Twist": msg}, ignore_index=True)
 
 def hRCoMVSFeedbackCB(msg: rcomFeedback):
     global h_rcom_vs_feedback_df
-    h_rcom_vs_feedback_df = h_rcom_vs_feedback_df.append({"p_trocar_error": msg.errors.p_trocar.position}, ignore_index=True)
+    h_rcom_vs_feedback_df = h_rcom_vs_feedback_df.append({"rcomFeedback": msg}, ignore_index=True)
 
 def rCoMStateCB(msg: rcom):
     global rcom_state_df
-    rcom_state_df = rcom_state_df.append({"p_trocar": msg.p_trocar.position, "task": msg.task.values}, ignore_index=True)
+    rcom_state_df = rcom_state_df.append({"rcom": msg}, ignore_index=True)
 
 # subscribe to
 #   - /lbr/visual_servo/mean_pairwise_distance   measure visual error minimization
