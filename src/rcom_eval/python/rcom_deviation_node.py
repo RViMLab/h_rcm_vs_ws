@@ -5,16 +5,19 @@ import rospy
 from geometry_msgs.msg import Pose
 from rcom_msgs.msg import rcom
 
-counter = 0
-t = 2.         # period in seconds
-f = 200        # frequency
-w = 2*np.pi/f  #
+T  = 1.          # period
+t  = 0.         # current time
+f  = 1/T        # frequency
+dt = 0.01       # dt
+amplitude_x = 1.
+amplitude_y = 1.
 
 def deviation(ax: float, ay: float):  # ax, ay: amplitude in m
-    dx = ax*np.cos(float(i)*w)
-    dy = ay*np.sin(float(i)*w)
-    global counter
-    counter += 1
+    global t
+    global f
+    dx = ax*np.cos(2*np.pi*f*t)
+    dy = ay*np.sin(2*np.pi*f*t)
+    t += dt
     return dx, dy
 
 # publish sinusoidal rcom delta
@@ -27,19 +30,27 @@ rcom0 = rcom()
 def rCoMCB(msg: rcom):
     global rcom0_init
     global rcom0
+
     if not rcom0_init:
         rcom0 = msg
         rcom0_init = True
 
-rcom_sub = rospy.Subscriber("h_rcom_vs/RCoM_ActionServer", rcom, , queue_size=1)
+rcom_sub = rospy.Subscriber("h_rcom_vs/RCoM_ActionServer", rcom, rCoMCB, queue_size=1)
 
 if __name__ == '__main__':
+    rospy.init_node("rcom_deviation_node")
 
+    T  = rospy.get_param("rcom_deviation_node/period")
+    dt = rospy.get_param("rcom_deviation_node/dt")
+    amplitude_x = rospy.get_param("rcom_deviation_node/amplitude_x")
+    amplitude_y = rospy.get_param("rcom_deviation_node/amplitude_y")
+    f = float(1/T)
 
-    while not rospy.is_shutdown:
+    r = rospy.Rate(float(1/dt))
+    while not rospy.is_shutdown():
 
         if rcom0_init:
-            dx, dy = deviation(1., 1.)
+            dx, dy = deviation(amplitude_x, amplitude_y)
 
             pose = Pose()
             pose.position.x = rcom0.p_trocar.position.x + dx
@@ -47,4 +58,4 @@ if __name__ == '__main__':
             pose.position.z = rcom0.p_trocar.position.z
             rcom_pub.publish(pose)
 
-        rospy.sleep(rospy.Duration(float(t/f)))
+        r.sleep()
