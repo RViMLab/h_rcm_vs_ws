@@ -8,8 +8,12 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 )
 
+catkin_package(
+  CATKIN_DEPENDS rospy geometry_msgs rcom_msgs std_msgs
+)
+
 # Install
 catkin_install_python(
-  PROGRAMS python/rcom_eval.py
+  PROGRAMS python/rcom_eval_node.py python/rcom_deviation_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
