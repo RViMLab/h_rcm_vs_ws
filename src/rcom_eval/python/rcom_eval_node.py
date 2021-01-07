@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+import os
 import pandas as pd
 import rospy
 from std_msgs.msg import Float64
@@ -8,20 +11,24 @@ from rcom_msgs.msg import rcom, rcomFeedback
 mean_pairwise_distance_df = pd.DataFrame(columns=["mean_pairwise_distance"])
 twist_df = pd.DataFrame(columns=["linear", "angular"])
 h_rcom_vs_feedback_df = pd.DataFrame(columns=["p_trocar_error"])
-rcom_state_df = pd.DataFrame(columns=["tip"])
+rcom_state_df = pd.DataFrame(columns=["p_trocar", "task"])
 
 # callbacks
 def meanPairwiseDistanceCB(msg: Float64):
-    mean_pairwise_distance_df = mean_pairwise_distance_df.append({"mean_pairwise_distance": msg})
+    global mean_pairwise_distance_df
+    mean_pairwise_distance_df = mean_pairwise_distance_df.append({"mean_pairwise_distance": msg}, ignore_index=True)
 
 def twistCB(msg: Twist):
-    twist_df = twist_df.append({"linear": msg.linear, "angular": msg.angular})
+    global twist_df
+    twist_df = twist_df.append({"linear": msg.linear, "angular": msg.angular}, ignore_index=True)
 
 def hRCoMVSFeedbackCB(msg: rcomFeedback):
-    h_rcom_vs_feedback_df = h_rcom_vs_feedback_df.append({"p_trocar_error": msg.errors.p_trocar.position})
+    global h_rcom_vs_feedback_df
+    h_rcom_vs_feedback_df = h_rcom_vs_feedback_df.append({"p_trocar_error": msg.errors.p_trocar.position}, ignore_index=True)
 
 def rCoMStateCB(msg: rcom):
-    rcom_state_df = rcom_state_df.append({"p_trocar": msg.p_trocar.position, "task": msg.task.values})
+    global rcom_state_df
+    rcom_state_df = rcom_state_df.append({"p_trocar": msg.p_trocar.position, "task": msg.task.values}, ignore_index=True)
 
 # subscribe to
 #   - /lbr/visual_servo/mean_pairwise_distance   measure visual error minimization
@@ -43,3 +50,10 @@ if __name__ == '__main__':
     rospy.init_node("rcom_eval_node")
 
     rospy.spin()
+
+    rospy.loginfo("Saving measurements to {}".format(os.getcwd()))
+
+    mean_pairwise_distance_df.to_pickle("mean_pairwise_distance.pkl")
+    twist_df.to_pickle("twist.pkl")
+    h_rcom_vs_feedback_df.to_pickle("h_rcom_vs_feedback.pkl")
+    rcom_state_df = rcom_state_df.to_pickle("rcom_state.pkl")
