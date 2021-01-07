@@ -1,3 +1,3 @@
 <launch>
-
+    <node pkg="rcom_eval" ns="lbr" name="rcom_eval_node" type="rcom_eval_node.py" output="screen"/>
 </launch>
