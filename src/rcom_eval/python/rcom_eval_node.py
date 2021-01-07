@@ -5,7 +5,7 @@ import pandas as pd
 import rospy
 from std_msgs.msg import Float64
 from geometry_msgs.msg import Twist
-from rcom_msgs.msg import rcom, rcomFeedback
+from rcom_msgs.msg import rcom, rcomActionFeedback
 
 # dataframes to hold measurements
 mean_pairwise_distance_df = pd.DataFrame(columns=["mean_pairwise_distance"])
@@ -22,9 +22,9 @@ def twistCB(msg: Twist):
     global twist_df
     twist_df = twist_df.append({"Twist": msg}, ignore_index=True)
 
-def hRCoMVSFeedbackCB(msg: rcomFeedback):
+def hRCoMVSFeedbackCB(msg: rcomActionFeedback):
     global h_rcom_vs_feedback_df
-    h_rcom_vs_feedback_df = h_rcom_vs_feedback_df.append({"rcomFeedback": msg}, ignore_index=True)
+    h_rcom_vs_feedback_df = h_rcom_vs_feedback_df.append({"rcomFeedback": msg.feedback}, ignore_index=True)
 
 def rCoMStateCB(msg: rcom):
     global rcom_state_df
@@ -37,7 +37,7 @@ def rCoMStateCB(msg: rcom):
 #   - /lbr/RCoM_ActionServer/state               measure rcom tip msg.state.task.values
 mean_pairwise_distance_sub = rospy.Subscriber("visual_servo/mean_pairwise_distance", Float64, meanPairwiseDistanceCB)
 twist_sub = rospy.Subscriber("visual_servo/twist", Twist, twistCB)
-h_rcom_vs_feedback_sub = rospy.Subscriber("h_rcom_vs/RCoM_ActionServer/feedback", rcomFeedback, hRCoMVSFeedbackCB)
+h_rcom_vs_feedback_sub = rospy.Subscriber("h_rcom_vs/RCoM_ActionServer/feedback", rcomActionFeedback, hRCoMVSFeedbackCB)
 rcom_state_sub = rospy.Subscriber("RCoM_ActionServer/state", rcom, rCoMStateCB)
 
 # experiments
