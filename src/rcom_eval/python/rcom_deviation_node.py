@@ -5,7 +5,7 @@ import rospy
 from geometry_msgs.msg import Pose
 from rcom_msgs.msg import rcom
 
-T  = 1.          # period
+T  = 1.         # period
 t  = 0.         # current time
 f  = 1/T        # frequency
 dt = 0.01       # dt
