@@ -27,7 +27,13 @@ In the 2nd terminal do
 ```shell
 roslaunch h_rcom_vs rcom_init.launch image_topic:=/lbr/storz_endoscope_camera/image_raw  # initializes random endoscope position
 ```
-where `image_topic` is `/decklink/crop/image_raw` for the real setup. In a 3rd terminal do
+For the real setup, do
+```shell
+roslaunch h_rcom_vs rcom_init.launch \
+    image_topic:=/lbr/storz_endoscope_camera/image_raw \
+    url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # initializes random endoscope position
+```
+In a 3rd terminal, do
 ```shell
 roslaunch h_rcom_vs h_rcom_calibration_pattern_vs.launch image_topic:=/lbr/storz_endoscope_camera/image_raw  # launches the visual servo
 ```
