@@ -30,16 +30,16 @@ roslaunch h_rcom_vs rcom_init.launch image_topic:=/lbr/storz_endoscope_camera/im
 For the real setup, do
 ```shell
 roslaunch h_rcom_vs rcom_init.launch \
-    image_topic:=/lbr/storz_endoscope_camera/image_raw \
+    image_topic:=/decklink/crop/image_raw \
     url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # initializes random endoscope position
 ```
 In a 3rd terminal, do
 ```shell
 roslaunch h_rcom_vs h_rcom_calibration_pattern_vs.launch image_topic:=/lbr/storz_endoscope_camera/image_raw  # launches the visual servo
 ```
-The `h_vs_node` and `h_gen_calibration_pattern_node` nodes within this launch file also load a calibration file, therefore, for a real setup do
+The `h_vs_node` and `h_gen_calibration_pattern_node` or `h_gen_endoscopy_calibration_pattern_node` nodes within this launch file also load a calibration file, therefore, for a real setup do
 ```shell
-roslaunch h_rcom_vs h_rcom_calibration_pattern_vs.launch \
+roslaunch h_rcom_vs h_rcom_endoscopy_calibration_pattern_vs.launch \
     image_topic:=/decklink/crop/image_raw \
     cname:=decklink url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # launches the visual servo
 ```
