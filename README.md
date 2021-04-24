@@ -9,9 +9,15 @@ To build this code, do
 ```shell
 mkdir -p calibration_pattern_h_rcom_vs/src && cd calibration_pattern_h_rcom_vs/src
 git clone --recursive https://github.com/RViMLab/h_rcom_vs_ws && cd ..
+```
+Then, for the simulated setup do
+```shell
+catkin_make -DCATKIN_BLACKLIST_PACKAGES="decklink_ros" && source devel/setup.bash
+```
+For the real setup do
+```shell
 catkin_make && source devel/setup.bash
 ```
-
 All examples are explained below.
 
 ## Calibration Pattern
