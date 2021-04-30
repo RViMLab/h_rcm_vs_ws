@@ -16,16 +16,16 @@ catkin_make -DCATKIN_BLACKLIST_PACKAGES="decklink_ros" && source devel/setup.bas
 ```
 For the real setup do
 ```shell
-catkin_make && source devel/setup.bash
+catkin_make -DDECKLINK_SDK_DIR="path/to/Blackmagic_DeckLink_SDK" && source devel/setup.bash
 ```
 All examples are explained below.
 
 ## Calibration Pattern
 This visual servo computes a desired homography from a calibration pattern. To run this example, open 3 terminals and do
 ```shell
-roslaunch lbr_stroz_endoscope_moveit moveit_planning_execution.launch sim:=true  # initializes robot
+roslaunch lbr_storz_endoscope_moveit moveit_planning_execution.launch sim:=true  # initializes robot
 ```
-where `sim` can be set to `false` for use on the real robot. In case of a real setup, also launch a camera, for example
+where `sim` can be set to `false` for use on the real robot. In case of a real setup, also launch a camera, for example, open a 4th terminal and do
 ```shell
 roslaunch h_rcom_vs decklink_storz_endoscope.launch
 ```
@@ -46,6 +46,26 @@ roslaunch h_rcom_vs h_rcom_calibration_pattern_vs.launch image_topic:=/lbr/storz
 The `h_vs_node` and `h_gen_calibration_pattern_node` or `h_gen_endoscopy_calibration_pattern_node` nodes within this launch file also load a calibration file, therefore, for a real setup do
 ```shell
 roslaunch h_rcom_vs h_rcom_endoscopy_calibration_pattern_vs.launch \
+    image_topic:=/decklink/crop/image_raw \
+    cname:=decklink url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # launches the visual servo
+```
+
+## Stored Views
+In this mode, the user has the ability to move the robot via a GUI and to capture images along the way. In the process, a graph with images as nodes is built that can be used for servoing. To run, open 2 terminals and do
+```shell
+roslaunch lbr_storz_endoscope_moveit moveit_planning_execution.launch sim:=true  # initializes robot
+```
+where `sim` can be set to `false` for use on the real robot. In case of a real setup, also launch a camera, for example, open a 3rd terminal and do
+```shell
+roslaunch h_rcom_vs decklink_storz_endoscope.launch
+```
+In the second terminal do
+```shell
+roslaunch h_rcom_vs h_rcom_endoscopy_stored_views_vs.launch
+```
+For the real setup do
+```shell
+roslaunch h_rcom_vs h_rcom_endoscopy_stored_views_vs.launch \
     image_topic:=/decklink/crop/image_raw \
     cname:=decklink url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # launches the visual servo
 ```
