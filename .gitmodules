@@ -19,3 +19,6 @@
 [submodule "src/decklink_ros"]
 	path = src/decklink_ros
 	url = https://github.com/RViMLab/decklink_ros.git
+[submodule "src/h_pose_vs"]
+	path = src/h_pose_vs
+	url = https://github.com/RViMLab/h_pose_vs.git
