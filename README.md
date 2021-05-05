@@ -51,6 +51,7 @@ roslaunch h_rcom_vs h_rcom_endoscopy_calibration_pattern_vs.launch \
 ```
 
 ## Stored Views
+### Endoscope
 In this mode, the user has the ability to move the robot via a GUI and to capture images along the way. In the process, a graph with images as nodes is built that can be used for servoing. To run, open 2 terminals and do
 ```shell
 roslaunch lbr_storz_endoscope_moveit moveit_planning_execution.launch sim:=true  # initializes robot
@@ -67,7 +68,29 @@ For the real setup do
 ```shell
 roslaunch h_rcom_vs h_rcom_endoscopy_stored_views_vs.launch \
     image_topic:=/decklink/crop/image_raw \
-    cname:=decklink url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # launches the visual servo
+    cname:=decklink url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml \
+    sim:=false  # launches the visual servo
+```
+
+### Exoscope
+In this mode, the user has the ability to move the robot via a GUI and to capture images along the way. In the process, a graph with images as nodes is built that can be used for servoing. To run, open 2 terminals and do
+```shell
+roslaunch lbr_storz_exoscope_moveit moveit_planning_execution.launch sim:=true  # initializes robot
+```
+where `sim` can be set to `false` for use on the real robot. In case of a real setup, also launch a camera, for example, open a 3rd terminal and do
+```shell
+roslaunch h_pose_vs decklink_storz_exoscope.launch
+```
+In the second terminal do
+```shell
+roslaunch h_pose_vs h_pose_exoscope_stored_views_vs.launch
+```
+For the real setup do
+```shell
+roslaunch h_pose_vs h_pose_exoscope_stored_views_vs.launch \
+    image_topic:=/decklink/crop/image_raw \
+    cname:=decklink url:=package://h_pose_vs/config/decklink_storz_exoscope_calibrationdata/ost.yaml \
+    sim:=false  # launches the visual servo
 ```
 
 ## Deep Servos
