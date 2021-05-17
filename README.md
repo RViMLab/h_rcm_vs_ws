@@ -1,14 +1,14 @@
 # Homography-based 2D Visual Servo with Remote Center of Motion Workspace
 This workspace implements an exemplary use cases for homography-based 2D visual servoing with remote center of motion constraint. It is based upon 4 main packages
-- [rcom](https://github.com/RViMLab/rcom), implements an abstract task remote center of motion gain controller
+- [rcm](https://github.com/RViMLab/rcm), implements an abstract task remote center of motion gain controller
 - [h_vs](https://github.com/RViMLab/h_vs), implements the desired homography generation, and the visual servo to compute the desired camera frame twist velocity
-- [h_rcom_vs](https://github.com/RViMLab/h_rcom_vs), implements the specific task for the abstract [rcom](https://github.com/RViMLab/rcom) package
+- [h_rcm_vs](https://github.com/RViMLab/h_rcm_vs), implements the specific task for the abstract [rcm](https://github.com/RViMLab/rcm) package
 - [fri_ros](https://github.com/KCL-BMEIS/fri_ros), handles the communication to the KUKA LBR Med via the fast robot interface
 
 To build this code, do
 ```shell
-mkdir -p calibration_pattern_h_rcom_vs/src && cd calibration_pattern_h_rcom_vs/src
-git clone --recursive https://github.com/RViMLab/h_rcom_vs_ws && cd ..
+mkdir -p calibration_pattern_h_rcm_vs/src && cd calibration_pattern_h_rcm_vs/src
+git clone --recursive https://github.com/RViMLab/h_rcm_vs_ws && cd ..
 ```
 Then, for the simulated setup do
 ```shell
@@ -27,27 +27,27 @@ roslaunch lbr_storz_endoscope_moveit moveit_planning_execution.launch sim:=true 
 ```
 where `sim` can be set to `false` for use on the real robot. In case of a real setup, also launch a camera, for example, open a 4th terminal and do
 ```shell
-roslaunch h_rcom_vs decklink_storz_endoscope.launch
+roslaunch h_rcm_vs decklink_storz_endoscope.launch
 ```
 In the 2nd terminal do
 ```shell
-roslaunch h_rcom_vs rcom_init.launch image_topic:=/lbr/storz_endoscope_camera/image_raw  # initializes random endoscope position
+roslaunch h_rcm_vs rcm_init.launch image_topic:=/lbr/storz_endoscope_camera/image_raw  # initializes random endoscope position
 ```
 For the real setup, do
 ```shell
-roslaunch h_rcom_vs rcom_init.launch \
+roslaunch h_rcm_vs rcm_init.launch \
     image_topic:=/decklink/crop/image_raw \
-    url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # initializes random endoscope position
+    url:=package://h_rcm_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # initializes random endoscope position
 ```
 In a 3rd terminal, do
 ```shell
-roslaunch h_rcom_vs h_rcom_calibration_pattern_vs.launch image_topic:=/lbr/storz_endoscope_camera/image_raw  # launches the visual servo
+roslaunch h_rcm_vs h_rcm_calibration_pattern_vs.launch image_topic:=/lbr/storz_endoscope_camera/image_raw  # launches the visual servo
 ```
 The `h_vs_node` and `h_gen_calibration_pattern_node` or `h_gen_endoscopy_calibration_pattern_node` nodes within this launch file also load a calibration file, therefore, for a real setup do
 ```shell
-roslaunch h_rcom_vs h_rcom_endoscopy_calibration_pattern_vs.launch \
+roslaunch h_rcm_vs h_rcm_endoscopy_calibration_pattern_vs.launch \
     image_topic:=/decklink/crop/image_raw \
-    cname:=decklink url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # launches the visual servo
+    cname:=decklink url:=package://h_rcm_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml  # launches the visual servo
 ```
 
 ## Stored Views
@@ -58,17 +58,17 @@ roslaunch lbr_storz_endoscope_moveit moveit_planning_execution.launch sim:=true 
 ```
 where `sim` can be set to `false` for use on the real robot. In case of a real setup, also launch a camera, for example, open a 3rd terminal and do
 ```shell
-roslaunch h_rcom_vs decklink_storz_endoscope.launch
+roslaunch h_rcm_vs decklink_storz_endoscope.launch
 ```
 In the second terminal do
 ```shell
-roslaunch h_rcom_vs h_rcom_endoscopy_stored_views_vs.launch
+roslaunch h_rcm_vs h_rcm_endoscopy_stored_views_vs.launch
 ```
 For the real setup do
 ```shell
-roslaunch h_rcom_vs h_rcom_endoscopy_stored_views_vs.launch \
+roslaunch h_rcm_vs h_rcm_endoscopy_stored_views_vs.launch \
     image_topic:=/decklink/crop/image_raw \
-    cname:=decklink url:=package://h_rcom_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml \
+    cname:=decklink url:=package://h_rcm_vs/config/decklink_storz_endoscope_calibrationdata/ost.yaml \
     sim:=false  # launches the visual servo
 ```
 

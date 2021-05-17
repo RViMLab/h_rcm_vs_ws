@@ -6,7 +6,7 @@
     <arg name="amplitude_x" default="0.01"/>
     <arg name="amplitude_y" default="0.01"/>
 
-    <node pkg="rcom_eval" ns="lbr" name="rcom_deviation_node" type="rcom_deviation_node.py" output="screen">
+    <node pkg="rcm_eval" ns="lbr" name="rcm_deviation_node" type="rcm_deviation_node.py" output="screen">
         <param name="period" value="$(arg period)"/>
         <param name="dt" value="$(arg dt)"/>
         <param name="amplitude_x" value="$(arg amplitude_x)"/>

@@ -5,13 +5,13 @@ import pandas as pd
 import rospy
 from std_msgs.msg import Float64
 from geometry_msgs.msg import Twist
-from rcom_msgs.msg import rcom, rcomActionFeedback
+from rcm_msgs.msg import rcm, rcmActionFeedback
 
 # dataframes to hold measurements
 mean_pairwise_distance_df = pd.DataFrame(columns=["mean_pairwise_distance"])
 twist_df = pd.DataFrame(columns=["Twist"])
-h_rcom_vs_feedback_df = pd.DataFrame(columns=["rcomFeedback"])
-rcom_state_df = pd.DataFrame(columns=["rcom"])
+h_rcm_vs_feedback_df = pd.DataFrame(columns=["rcmFeedback"])
+rcm_state_df = pd.DataFrame(columns=["rcm"])
 
 # callbacks
 def meanPairwiseDistanceCB(msg: Float64):
@@ -22,32 +22,32 @@ def twistCB(msg: Twist):
     global twist_df
     twist_df = twist_df.append({"Twist": msg}, ignore_index=True)
 
-def hRCoMVSFeedbackCB(msg: rcomActionFeedback):
-    global h_rcom_vs_feedback_df
-    h_rcom_vs_feedback_df = h_rcom_vs_feedback_df.append({"rcomFeedback": msg.feedback}, ignore_index=True)
+def hRCMVSFeedbackCB(msg: rcmActionFeedback):
+    global h_rcm_vs_feedback_df
+    h_rcm_vs_feedback_df = h_rcm_vs_feedback_df.append({"rcmFeedback": msg.feedback}, ignore_index=True)
 
-def rCoMStateCB(msg: rcom):
-    global rcom_state_df
-    rcom_state_df = rcom_state_df.append({"rcom": msg}, ignore_index=True)
+def rCoMStateCB(msg: rcm):
+    global rcm_state_df
+    rcm_state_df = rcm_state_df.append({"rcm": msg}, ignore_index=True)
 
 # subscribe to
 #   - /lbr/visual_servo/mean_pairwise_distance   measure visual error minimization
 #   - /lbr/visual_servo/twist                    measure error minimization
-#   - /lbr/h_rcom_vs/RCoM_ActionServer/feedback  measure rcom deviation msg.errors.p_trocar
-#   - /lbr/RCoM_ActionServer/state               measure rcom tip msg.state.task.values
+#   - /lbr/h_rcm_vs/RCM_ActionServer/feedback  measure rcm deviation msg.errors.p_trocar
+#   - /lbr/RCM_ActionServer/state               measure rcm tip msg.state.task.values
 mean_pairwise_distance_sub = rospy.Subscriber("visual_servo/mean_pairwise_distance", Float64, meanPairwiseDistanceCB)
 twist_sub = rospy.Subscriber("visual_servo/twist", Twist, twistCB)
-h_rcom_vs_feedback_sub = rospy.Subscriber("h_rcom_vs/RCoM_ActionServer/feedback", rcomActionFeedback, hRCoMVSFeedbackCB)
-rcom_state_sub = rospy.Subscriber("h_rcom_vs/RCoM_ActionServer/state", rcom, rCoMStateCB)
+h_rcm_vs_feedback_sub = rospy.Subscriber("h_rcm_vs/RCM_ActionServer/feedback", rcmActionFeedback, hRCMVSFeedbackCB)
+rcm_state_sub = rospy.Subscriber("h_rcm_vs/RCM_ActionServer/state", rcm, rCoMStateCB)
 
 # experiments
 #   - visual servo
 #     - random perturbation
-#     - random perturbation under rcom deviation
+#     - random perturbation under rcm deviation
 #   - camera displacement
 
 if __name__ == '__main__':
-    rospy.init_node("rcom_eval_node")
+    rospy.init_node("rcm_eval_node")
 
     rospy.spin()
 
@@ -55,5 +55,5 @@ if __name__ == '__main__':
 
     mean_pairwise_distance_df.to_pickle("mean_pairwise_distance.pkl")
     twist_df.to_pickle("twist.pkl")
-    h_rcom_vs_feedback_df.to_pickle("h_rcom_vs_feedback.pkl")
-    rcom_state_df = rcom_state_df.to_pickle("rcom_state.pkl")
+    h_rcm_vs_feedback_df.to_pickle("h_rcm_vs_feedback.pkl")
+    rcm_state_df = rcm_state_df.to_pickle("rcm_state.pkl")
