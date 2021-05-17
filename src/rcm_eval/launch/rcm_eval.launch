@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="rcm_eval" ns="lbr" name="rcm_eval_node" type="rcm_eval_node.py" output="screen"/>
+</launch>
