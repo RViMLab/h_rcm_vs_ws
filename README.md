@@ -72,6 +72,27 @@ roslaunch h_rcm_vs h_rcm_endoscopy_stored_views_vs.launch \
     sim:=false  # launches the visual servo
 ```
 
+### Tilt Endoscope
+Same as endoscope, but tiltable. To run, open 2 terminals and do
+```shell
+roslaunch lbr_storz_tilt_endoscope_moveit moveit_planning_execution.launch sim:=true  # initializes robot
+```
+where `sim` can be set to `false` for use on the real robot. In case of a real setup, also launch a camera, for example, open a 3rd terminal and do
+```shell
+roslaunch h_rcm_vs decklink_storz_tilt_endoscope.launch
+```
+In the second terminal do
+```shell
+roslaunch h_rcm_vs h_rcm_endoscopy_stored_views_vs_tilt_endoscope.launch
+```
+For the real setup do
+```shell
+roslaunch h_rcm_vs h_rcm_endoscopy_stored_views_vs_tilt_endoscope.launch \
+    image_topic:=/decklink/crop/image_raw \
+    cname:=decklink url:=package://h_rcm_vs/config/decklink_storz_tilt_endoscope_calibrationdata/ost.yaml \
+    sim:=false # launches the visual servo
+```
+
 ### Exoscope
 In this mode, the user has the ability to move the robot via a GUI and to capture images along the way. In the process, a graph with images as nodes is built that can be used for servoing. To run, open 2 terminals and do
 ```shell
