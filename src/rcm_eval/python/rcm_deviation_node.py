@@ -35,7 +35,7 @@ def rCoMCB(msg: rcm):
         rcm0 = msg
         rcm0_init = True
 
-rcm_sub = rospy.Subscriber("h_rcm_vs/RCM_ActionServer", rcm, rCoMCB, queue_size=1)
+rcm_sub = rospy.Subscriber("h_rcm_vs/RCM_ActionServer/state", rcm, rCoMCB, queue_size=1)
 
 if __name__ == '__main__':
     rospy.init_node("rcm_deviation_node")
