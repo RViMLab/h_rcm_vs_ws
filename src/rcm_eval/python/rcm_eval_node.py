@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     rospy.loginfo("Saving measurements to {}".format(os.getcwd()))
 
-    pairwise_distance_df.to_pickle("pairwise_distance.pkl")
-    twist_df.to_pickle("twist.pkl")
-    h_rcm_vs_feedback_df.to_pickle("h_rcm_vs_feedback.pkl")
-    rcm_state_df = rcm_state_df.to_pickle("rcm_state.pkl")
+    pairwise_distance_df.to_pickle("pairwise_distance.pkl", protocol=2)  # support read by python2
+    twist_df.to_pickle("twist.pkl", protocol=2)
+    h_rcm_vs_feedback_df.to_pickle("h_rcm_vs_feedback.pkl", protocol=2)
+    rcm_state_df = rcm_state_df.to_pickle("rcm_state.pkl", protocol=2)
