@@ -121,5 +121,5 @@ if __name__ == '__main__':
         'rcm_state.pkl': 'rcm_state',
         'twist.pkl': 'twist'
     }
-    log_dir = '/tmp'
+    log_dir = '/home/martin/Control/h_rcom_vs_ws/src/rcm_eval/data/h_gen_endoscopy_stored_views/exports'
     exporter(prefix, files, log_dir)
