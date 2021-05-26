@@ -30,7 +30,7 @@ def pairwise_distance_csv_exporter(df: pd.DataFrame, log_dir: str, out_file: str
     export_df['time'] = df.time
     export_df['mean_pairwise_distance'] = df.pairwise_distance.apply(lambda x: x.mean_pairwise_distance.data)
     export_df['std_pairwise_distance'] = df.pairwise_distance.apply(lambda x: x.std_pairwise_distance.data)
-    export_df['n_matches'] = df.pairwise_distance.apply(lambda x: x.matches.data)  # TODO: change to n_matches
+    export_df['n_matches'] = df.pairwise_distance.apply(lambda x: x.n_matches.data)
     
     output = os.path.join(log_dir, out_file)
     export_df.to_csv(output, index=False)
