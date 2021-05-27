@@ -20,5 +20,6 @@
   <exec_depend>rcm_msgs</exec_depend>
   <exec_depend>rospy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
+  <depend>sensor_msgs</depend>
 
 </package>

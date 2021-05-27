@@ -48,6 +48,8 @@ def path_csv_exporter(df: pd.DataFrame, log_dir: str, out_file: str):
     export_df['final_rcm.p_trocar_position.x'] = df.final_rcm.apply(lambda x: x.p_trocar.position.x)
     export_df['final_rcm.p_trocar_position.y'] = df.final_rcm.apply(lambda x: x.p_trocar.position.y)
     export_df['final_rcm.p_trocar_position.z'] = df.final_rcm.apply(lambda x: x.p_trocar.position.z)
+    export_df['target_joint_state.position'] = df.target_joint_state.apply(lambda x: x.position)
+    export_df['final_joint_state.position'] = df.final_joint_state.apply(lambda x: x.position)
 
     # export images
     path = out_file.split('/')[-1].split('.')[0]
@@ -91,6 +93,15 @@ def twist_csv_exporter(df: pd.DataFrame, log_dir: str, out_file: str):
     output = os.path.join(log_dir, out_file)
     export_df.to_csv(output, index=False)
 
+def joint_state_csv_exporter(df: pd.DataFrame, log_dir: str, out_file: str):
+    exporter_df = pd.DataFrame()
+    exporter_df['time'] = df.time
+    exporter_df['JointState.position'] = df.JointState.apply(lambda x: x.position)
+    exporter_df['JointState.name'] = df.JointState.apply(lambda x: x.name)
+    
+    output = os.path.join(log_dir, out_file)
+    exporter_df.to_csv(output, index=False)
+
 def exporter(prefix: str, files: dict, log_dir: str):
     for key, value in files.items():
         out_file = '{}.csv'.format(key.split('.')[0])
@@ -107,6 +118,8 @@ def exporter(prefix: str, files: dict, log_dir: str):
             rcm_state_csv_exporter(df, log_dir, out_file)
         elif value is 'twist':
             twist_csv_exporter(df, log_dir, out_file)
+        elif value is 'joint_state':
+            joint_state_csv_exporter(df, log_dir, out_file)
         else:
             print('Unsuported type found.')
 
@@ -119,7 +132,8 @@ if __name__ == '__main__':
         'pairwise_distance.pkl': 'pairwise_distance',
         'path_0.pkl': 'path',
         'rcm_state.pkl': 'rcm_state',
-        'twist.pkl': 'twist'
+        'twist.pkl': 'twist',
+        'joint_state.pkl': 'joint_state'
     }
     log_dir = '/home/martin/Control/h_rcom_vs_ws/src/rcm_eval/data/h_gen_endoscopy_stored_views/exports'
     exporter(prefix, files, log_dir)
