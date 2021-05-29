@@ -126,14 +126,15 @@ def exporter(prefix: str, files: dict, log_dir: str):
 
 if __name__ == '__main__':
 
-    prefix = '/home/martin/Control/h_rcom_vs_ws/src/rcm_eval/data/h_gen_endoscopy_stored_views'
+    prefix = '/home/martin/Measurements/21_05_29_tool_insertion_to_close_up/05'
     files = {
         'h_rcm_vs_feedback.pkl': 'h_rcm_vs',
         'pairwise_distance.pkl': 'pairwise_distance',
         'path_0.pkl': 'path',
+        'path_1.pkl': 'path',
         'rcm_state.pkl': 'rcm_state',
         'twist.pkl': 'twist',
         'joint_state.pkl': 'joint_state'
     }
-    log_dir = '/home/martin/Control/h_rcom_vs_ws/src/rcm_eval/data/h_gen_endoscopy_stored_views/exports'
+    log_dir = '/home/martin/Measurements/21_05_29_tool_insertion_to_close_up/05/exports'
     exporter(prefix, files, log_dir)
